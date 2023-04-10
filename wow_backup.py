@@ -2,7 +2,7 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
 import shutil
-import json 
+import json
 from datetime import date
 
 
@@ -18,11 +18,18 @@ naming_option_var = True
 window = Tk()
 INVALID_CHARACTERS = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
 current_filepaths = {'game_directory':'', 'backup_directory':''}
+test_variable = 0
 
 # FUNCTIONS
 
 def update_current_filepaths():
-    current_filepaths.update({'game_directory': wow_directory_input.get(), 'backup_directory': backup_name_input.get()})
+    global current_filepaths
+    global test_variable
+    test_variable += 1
+    current_filepaths['game_directory'] = wow_directory_input.get()
+    index = backup_directory_input.get().rfind('/')
+    current_filepaths['backup_directory'] = backup_directory_input.get()[:index]
+    window.after(10, update_current_filepaths)
 
 def check_invalid_char():
     for i in backup_name_input.get():
@@ -139,7 +146,6 @@ def run_backup():
 
 
 # GUI
-
 window.title('WoW Backup Script')
 window.minsize(width=600, height=300)
 window.config(padx=20, pady=20)
@@ -211,13 +217,14 @@ status.grid(column=1, row=7, columnspan=4, sticky="W")
 run = Button(text="BACKUP", width=10, font=("Arial", 15, "bold"), command=run_backup)
 run.grid(column=1,row=10, columnspan=4, pady=10)
 
-window.after(0, update_current_filepaths)
+window.after(10, update_current_filepaths)
 window.mainloop()
 
 
 # SAVING FILEPATHS
-
-print(current_filepaths)
+print('Game Directory Saved: '+current_filepaths.get("game_directory"))
+print('Backup Directory Saved: '+current_filepaths.get("backup_directory"))
+print(test_variable)
 print("Saving to filepaths.json")
 with open("filepaths.json", mode="w") as f:
     json.dump(current_filepaths, f)
