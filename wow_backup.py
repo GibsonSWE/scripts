@@ -18,9 +18,18 @@ naming_option_var = True
 window = Tk()
 INVALID_CHARACTERS = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
 current_filepaths = {'game_directory':'', 'backup_directory':''}
-test_variable = 0
 
 # FUNCTIONS
+
+def load_previous_filepaths():
+    with open("filepaths.json", mode="r") as file:
+        filepaths = json.load(file)
+    print('Loading Game Directory: '+filepaths['game_directory'])
+    print('Loading Backup Directory: '+filepaths['backup_directory'])
+    wow_directory_input.insert(END, filepaths['game_directory'])
+    backup_directory_input.insert(END, filepaths['backup_directory']+'/'+todays_date)
+    global directory_path
+    directory_path = filepaths['backup_directory']
 
 def update_current_filepaths():
     global current_filepaths
@@ -217,7 +226,8 @@ status.grid(column=1, row=7, columnspan=4, sticky="W")
 run = Button(text="BACKUP", width=10, font=("Arial", 15, "bold"), command=run_backup)
 run.grid(column=1,row=10, columnspan=4, pady=10)
 
-window.after(10, update_current_filepaths)
+window.after(10, load_previous_filepaths)
+window.after(20, update_current_filepaths)
 window.mainloop()
 
 
