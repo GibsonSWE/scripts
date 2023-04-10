@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
 import shutil
+import json 
 from datetime import date
 
 
@@ -16,9 +17,12 @@ addons_backup_path = ''
 naming_option_var = True
 window = Tk()
 INVALID_CHARACTERS = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
-
+current_filepaths = {'game_directory':'', 'backup_directory':''}
 
 # FUNCTIONS
+
+def update_current_filepaths():
+    current_filepaths.update({'game_directory': wow_directory_input.get(), 'backup_directory': backup_name_input.get()})
 
 def check_invalid_char():
     for i in backup_name_input.get():
@@ -207,4 +211,13 @@ status.grid(column=1, row=7, columnspan=4, sticky="W")
 run = Button(text="BACKUP", width=10, font=("Arial", 15, "bold"), command=run_backup)
 run.grid(column=1,row=10, columnspan=4, pady=10)
 
+window.after(0, update_current_filepaths)
 window.mainloop()
+
+
+# SAVING FILEPATHS
+
+print(current_filepaths)
+print("Saving to filepaths.json")
+with open("filepaths.json", mode="w") as f:
+    json.dump(current_filepaths, f)
