@@ -33,8 +33,6 @@ def load_previous_filepaths():
 
 def update_current_filepaths():
     global current_filepaths
-    global test_variable
-    test_variable += 1
     current_filepaths['game_directory'] = wow_directory_input.get()
     index = backup_directory_input.get().rfind('/')
     current_filepaths['backup_directory'] = backup_directory_input.get()[:index]
@@ -71,7 +69,7 @@ def open_backup_directory():
             return
 
 def naming_option_date():
-#    backup_name_input.delete(0, END)
+#    backup_name_input.delete(0, END) UNCOMMENT THIS IF YOU WANT CUSTOM NAME INPUT TO BE EMPTY WHEN DATE NAMING IS SELECTED
     global naming_option_var
     naming_option_var = True
     backup_name_input.config(state=DISABLED)
@@ -234,7 +232,6 @@ window.mainloop()
 # SAVING FILEPATHS
 print('Game Directory Saved: '+current_filepaths.get("game_directory"))
 print('Backup Directory Saved: '+current_filepaths.get("backup_directory"))
-print(test_variable)
 print("Saving to filepaths.json")
 with open("filepaths.json", mode="w") as f:
     json.dump(current_filepaths, f)
