@@ -9,11 +9,7 @@ from datetime import date
 # VARIABLES
 
 todays_date = date.today().strftime('%Y%m%d')
-directory_path = ''
-wtf_src_path = ''
-addons_src_path = ''
-wtf_backup_path = ''
-addons_backup_path = ''
+backup_directory = ''
 naming_option_var = True
 window = Tk()
 INVALID_CHARACTERS = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
@@ -28,8 +24,8 @@ def load_previous_filepaths():
     print('Loading Backup Directory: '+filepaths['backup_directory'])
     wow_directory_input.insert(END, filepaths['game_directory'])
     backup_directory_input.insert(END, filepaths['backup_directory']+'/'+todays_date)
-    global directory_path
-    directory_path = filepaths['backup_directory']
+    global backup_directory
+    backup_directory = filepaths['backup_directory']
 
 def update_current_filepaths():
     global current_filepaths
@@ -48,24 +44,24 @@ def check_invalid_char():
                 return True
 
 def open_wow_directory():
-    file_path = filedialog.askdirectory()
+    directory = filedialog.askdirectory()
     wow_directory_input.delete(0, END)
-    wow_directory_input.insert(END, string=file_path)
+    wow_directory_input.insert(END, string=directory)
     return
 
 def open_backup_directory():
-    global directory_path
-    directory_path = filedialog.askdirectory()
+    global backup_directory
+    backup_directory = filedialog.askdirectory()
     backup_directory_input.delete(0, END)    
 
     if naming_option_int.get() == 1:
-        backup_directory_input.insert(END, directory_path+'/'+todays_date)
+        backup_directory_input.insert(END, backup_directory+'/'+todays_date)
     elif naming_option_int.get() == 2:
         if check_invalid_char() == True:
-            backup_directory_input.insert(END, directory_path+'/')
+            backup_directory_input.insert(END, backup_directory+'/')
             return
         else:
-            backup_directory_input.insert(END, directory_path+'/'+backup_name_input.get())
+            backup_directory_input.insert(END, backup_directory+'/'+backup_name_input.get())
             return
 
 def naming_option_date():
@@ -74,7 +70,7 @@ def naming_option_date():
     naming_option_var = True
     backup_name_input.config(state=DISABLED)
     backup_directory_input.delete(0, END)
-    backup_directory_input.insert(END, directory_path+'/'+todays_date)
+    backup_directory_input.insert(END, backup_directory+'/'+todays_date)
     return
 
 def naming_option_custom():
@@ -84,10 +80,10 @@ def naming_option_custom():
     backup_directory_input.delete(0, END)
     backup_name_input.focus()
     if check_invalid_char() == True:
-        backup_directory_input.insert(END, directory_path+'/')
+        backup_directory_input.insert(END, backup_directory+'/')
         return
     else:
-        backup_directory_input.insert(END, directory_path+'/'+backup_name_input.get())
+        backup_directory_input.insert(END, backup_directory+'/'+backup_name_input.get())
         return
 
 def apply_custom_name():
@@ -95,7 +91,7 @@ def apply_custom_name():
         return
     else:
         backup_directory_input.delete(0, END)
-        backup_directory_input.insert(END, directory_path+'/'+backup_name_input.get())
+        backup_directory_input.insert(END, backup_directory+'/'+backup_name_input.get())
         status.config(text="")
         return
 
