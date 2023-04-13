@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import filedialog, messagebox
 import shutil
 import json
+import threading
 from datetime import date
 
 
@@ -221,7 +222,8 @@ status_text.grid(column=0, row=7, sticky="E")
 status = Label(font=("Arial", "10"))
 status.grid(column=1, row=7, columnspan=4, sticky="W")
 
-run = Button(text="BACKUP", width=10, font=("Arial", 15, "bold"), command=run_backup)
+copying_thread = threading.Thread(target=run_backup)
+run = Button(text="BACKUP", width=10, font=("Arial", 15, "bold"), command=lambda: copying_thread.start())
 run.grid(column=1,row=10, columnspan=4, pady=10)
 
 window.after(10, load_previous_filepaths)
