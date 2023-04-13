@@ -1,1 +1,6 @@
 *.json
+*.pyc
+test.py
+test_module.py
+__pycache__/
+
