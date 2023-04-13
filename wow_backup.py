@@ -15,6 +15,7 @@ window = Tk()
 INVALID_CHARACTERS = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
 current_filepaths = {'game_directory':'', 'backup_directory':''}
 
+
 # FUNCTIONS
 
 def load_previous_filepaths():
@@ -65,7 +66,7 @@ def open_backup_directory():
             return
 
 def naming_option_date():
-#    backup_name_input.delete(0, END) UNCOMMENT THIS IF YOU WANT CUSTOM NAME INPUT TO BE EMPTY WHEN DATE NAMING IS SELECTED
+#    backup_name_input.delete(0, END) # UNCOMMENT THIS IF YOU WANT CUSTOM NAME INPUT TO BE EMPTY WHEN DATE NAMING IS SELECTED
     global naming_option_var
     naming_option_var = True
     backup_name_input.config(state=DISABLED)
@@ -125,6 +126,9 @@ def run_backup():
         print('From '+wtf_src_path+' to '+wtf_backup_path)
     except:
         messagebox.showerror(title="Error", message="An error occurred.")
+        print('An error occurred.')
+        status.config(text="An error occurred.")
+        return
     else:
         print('WTF Backup Complete.\n')
         status.config(text="WTF Backup Complete.")
