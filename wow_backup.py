@@ -88,12 +88,12 @@ def naming_option_custom():
         backup_directory_input.insert(END, backup_directory+'/'+backup_name_input.get())
         return
 
-def apply_custom_name():
+def update_custom_name(var, index, mode):
     if check_invalid_char() == True:
         return
     else:
         backup_directory_input.delete(0, END)
-        backup_directory_input.insert(END, backup_directory+'/'+backup_name_input.get())
+        backup_directory_input.insert(END, backup_directory+'/'+backup_name_string.get())
         status.config(text="")
         return
 
@@ -151,7 +151,7 @@ def run_backup():
         status.config(text="Backup complete.")
         messagebox.showinfo(title="Backup Complete", message="Backup Complete.")
         return
-
+    
 
 # GUI
 window.title('WoW Backup Script')
@@ -197,6 +197,7 @@ naming_option_text.grid(column=0, row=6, sticky="E")
 naming_option_int = IntVar()
 naming_option_int.set(1)
 backup_name_string = StringVar()
+backup_name_string.trace_add('write', update_custom_name)
 
 backup_name_option1 = Radiobutton(text="Date:", value=1, variable=naming_option_int, command=naming_option_date)
 backup_name_option1.grid(column=1, row=6, sticky="W")
@@ -210,8 +211,8 @@ backup_name_option2.grid(column=3, row=6, sticky="W")
 backup_name_input = Entry(width=20, textvariable=backup_name_string, state=DISABLED)
 backup_name_input.grid(column=4, row=6, sticky="W", pady=10)
 
-apply_button = Button(text="Apply", width=10, command=apply_custom_name)
-apply_button.grid(column=5,row=6)
+#apply_button = Button(text="Apply", width=10, command=apply_custom_name)
+#apply_button.grid(column=5,row=6)
 
 
 # STATUS AND RUN
