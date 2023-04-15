@@ -211,9 +211,6 @@ backup_name_option2.grid(column=3, row=6, sticky="W")
 backup_name_input = Entry(width=20, textvariable=backup_name_string, state=DISABLED)
 backup_name_input.grid(column=4, row=6, sticky="W", pady=10)
 
-#apply_button = Button(text="Apply", width=10, command=apply_custom_name)
-#apply_button.grid(column=5,row=6)
-
 
 # STATUS AND RUN
 
