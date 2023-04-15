@@ -226,8 +226,8 @@ copying_thread = threading.Thread(target=run_backup)
 run = Button(text="BACKUP", width=10, font=("Arial", 15, "bold"), command=lambda: copying_thread.start())
 run.grid(column=1,row=10, columnspan=4, pady=10)
 
-window.after(10, load_previous_filepaths)
-window.after(20, update_current_filepaths)
+load_previous_filepaths()
+window.after(10, update_current_filepaths)
 window.mainloop()
 
 
