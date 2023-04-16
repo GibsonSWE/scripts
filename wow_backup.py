@@ -220,8 +220,7 @@ status_text.grid(column=0, row=7, sticky="E")
 status = Label(font=("Arial", "10"))
 status.grid(column=1, row=7, columnspan=4, sticky="W")
 
-copying_thread = threading.Thread(target=run_backup)
-run = Button(text="BACKUP", width=10, font=("Arial", 15, "bold"), command=lambda: copying_thread.start())
+run = Button(text="BACKUP", width=10, font=("Arial", 15, "bold"), command=lambda: threading.Thread(target=run_backup).start())
 run.grid(column=1,row=10, columnspan=4, pady=10)
 
 load_previous_filepaths()
