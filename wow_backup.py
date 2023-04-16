@@ -105,14 +105,14 @@ def run_backup():
 
     if len(backup_name_input.get()) == 0 and not naming_option_var:
         print('Error: No backup name.')
-        messagebox.showwarning(title="Warning", message="Error: No backup name.")
         status.config(text="Error: No backup name.")
+        messagebox.showwarning(title="Warning", message="Error: No backup name.")
         return
     
     if wow_directory_input.get().find('_retail_') == -1:
         print('Error: Invalid installation directory.')
-        messagebox.showwarning(title="Warning", message="Error: Invalid game directory.")
         status.config(text="Error: Invalid game directory. Please provide _retail_ folder.")
+        messagebox.showwarning(title="Warning", message="Error: Invalid game directory.")
         return
 
     confirm = messagebox.askokcancel(title="Confirm", message="Your files will be copied to the following directory:\n\n"+backup_directory_input.get())
@@ -125,10 +125,15 @@ def run_backup():
     try:
         shutil.copytree(wtf_src_path, wtf_backup_path)
         print('From '+wtf_src_path+' to '+wtf_backup_path)
+    except FileNotFoundError:
+        print('Error: Invalid filepath.')
+        status.config(text="Error: Invalid filepath.")
+        messagebox.showerror(title="Error", message="Error: Invalid filepath.")
+        return
     except:
-        messagebox.showerror(title="Error", message="An error occurred.")
         print('An error occurred.')
         status.config(text="An error occurred.")
+        messagebox.showerror(title="Error", message="An error occurred.")
         return
     else:
         print('WTF Backup Complete.\n')
@@ -140,10 +145,14 @@ def run_backup():
     try:
         shutil.copytree(addons_src_path, addons_backup_path)
         print('From '+addons_src_path+' to '+addons_backup_path)
+    except FileNotFoundError:
+        print('Error: Invalid filepath.')
+        status.config(text="Error: Invalid filepath.")
+        messagebox.showerror(title="Error", message="Error: Invalid filepath.")
     except:
-        messagebox.showerror(title="Error", message="An error occurred.")
         print('An error occurred.')
         status.config(text="An error occurred.")
+        messagebox.showerror(title="Error", message="An error occurred.")
         return
     else:        
         print('Addons Backup Complete.\n')
