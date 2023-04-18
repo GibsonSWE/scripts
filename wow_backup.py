@@ -167,7 +167,8 @@ def run_backup():
 
 # GUI
 window.title('WoW Backup Script')
-window.minsize(width=600, height=300)
+window.minsize(width=700, height=300)
+window.resizable(False, False)
 window.config(padx=20, pady=20)
 
 header = Label(text="World of Warcraft Backup Script v1.0", font=("Arial", 12, "bold"))
@@ -182,11 +183,11 @@ author.grid(column=1, row=1, columnspan=4)
 wow_directory_text = Label(text="Game directory:")
 wow_directory_text.grid(column=0, row=4, sticky="E")
 
-wow_directory_input = Entry(width=60)
+wow_directory_input = Entry(width=80)
 wow_directory_input.grid(column=1, row=4, columnspan=4, sticky="W", pady=10)
 
 wow_browse_button = Button(text="Browse...", width=10, command=open_wow_directory)
-wow_browse_button.grid(column=5, row=4, sticky="W")
+wow_browse_button.grid(column=5, row=4, sticky="W", padx="5")
 
 
 # Backup Directory
@@ -194,11 +195,11 @@ wow_browse_button.grid(column=5, row=4, sticky="W")
 backup_directory_text = Label(text="Backup directory:")
 backup_directory_text.grid(column=0, row=5, sticky="E")
 
-backup_directory_input = Entry(width=60)
-backup_directory_input.grid(column=1, row=5, columnspan=4, sticky="W", pady=10)
+backup_directory_input = Entry(width=80)
+backup_directory_input.grid(column=1, row=5, columnspan=4, sticky="W", pady=5)
 
 backup_browse_button = Button(text="Browse...", width=10, command=open_backup_directory)
-backup_browse_button.grid(column=5, row=5, sticky="W")
+backup_browse_button.grid(column=5, row=5, sticky="W", padx="5")
 
 
 # Backup Naming
@@ -212,16 +213,16 @@ backup_name_string = StringVar()
 backup_name_string.trace_add('write', update_custom_name)
 
 backup_name_option1 = Radiobutton(text="Date:", value=1, variable=naming_option_int, command=naming_option_date)
-backup_name_option1.grid(column=1, row=6, sticky="W")
+backup_name_option1.grid(column=1, row=6, sticky="E")
 
 date_text = Label(text='../'+todays_date)
-date_text.grid(column=2, row=6)
+date_text.grid(column=2, row=6, sticky="E")
 
 backup_name_option2 = Radiobutton(text="Custom Name: ../", value=2, variable=naming_option_int, command=naming_option_custom)
-backup_name_option2.grid(column=3, row=6, sticky="W")
+backup_name_option2.grid(column=3, row=6, sticky="E")
 
 backup_name_input = Entry(width=20, textvariable=backup_name_string, state=DISABLED)
-backup_name_input.grid(column=4, row=6, sticky="W", pady=10)
+backup_name_input.grid(column=4, row=6, sticky="E", pady=5)
 
 
 # STATUS AND RUN
@@ -231,13 +232,13 @@ pb = ttk.Progressbar(
     window,
     orient='horizontal',
     mode='determinate',
-    length=365
+    length=485
 )
 # place the progressbar
 pb.grid(column=1, row=7, columnspan=4, sticky="W", padx=0, pady=0)
 
 status_text = Label(text="Status: ", font=("Arial", 12))
-status_text.grid(column=0, row=8, sticky="E")
+status_text.grid(column=0, row=7, sticky="E")
 
 status = Label(font=("Arial", "10"))
 status.grid(column=1, row=8, columnspan=4, sticky="W")
