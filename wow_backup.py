@@ -1,6 +1,6 @@
 # World of Warcraft Backup Script by GibsonSWE
 from tkinter import *
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, ttk
 import shutil
 import json
 import threading
@@ -96,6 +96,9 @@ def update_custom_name(var, index, mode):
         backup_directory_input.insert(END, backup_directory+'/'+backup_name_string.get())
         status.config(text="")
         return
+    
+def update_progress_label():
+    return f"Current Progress: {pb['value']}%"
 
 def run_backup():
     wtf_src_path = wow_directory_input.get()+'/'+'WTF'
@@ -223,11 +226,21 @@ backup_name_input.grid(column=4, row=6, sticky="W", pady=10)
 
 # STATUS AND RUN
 
+# progressbar
+pb = ttk.Progressbar(
+    window,
+    orient='horizontal',
+    mode='determinate',
+    length=365
+)
+# place the progressbar
+pb.grid(column=1, row=7, columnspan=4, sticky="W", padx=0, pady=0)
+
 status_text = Label(text="Status: ", font=("Arial", 12))
-status_text.grid(column=0, row=7, sticky="E")
+status_text.grid(column=0, row=8, sticky="E")
 
 status = Label(font=("Arial", "10"))
-status.grid(column=1, row=7, columnspan=4, sticky="W")
+status.grid(column=1, row=8, columnspan=4, sticky="W")
 
 run = Button(text="BACKUP", width=10, font=("Arial", 15, "bold"), command=lambda: threading.Thread(target=run_backup).start())
 run.grid(column=1,row=10, columnspan=4, pady=10)
