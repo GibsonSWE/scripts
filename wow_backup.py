@@ -1,10 +1,12 @@
 # World of Warcraft Backup Script by GibsonSWE
 from tkinter import *
 from tkinter import filedialog, messagebox, ttk
+import os
 import shutil
 import json
 import threading
 from datetime import date
+import time
 
 
 # VARIABLES
@@ -96,9 +98,23 @@ def update_custom_name(var, index, mode):
         backup_directory_input.insert(END, backup_directory+'/'+backup_name_string.get())
         status.config(text="")
         return
-    
-def update_progress_label():
-    return f"Current Progress: {pb['value']}%"
+
+def progress_checker(src_path, dest_path):
+    print('Entering progress checker')
+    dest_size = 0
+    src_size = 0
+    for root, dirs, files in os.walk(src_path):
+        for name in files:
+            src_size += os.path.getsize(os.path.join(root, name))
+
+    while dest_size < src_size:
+        for root, dirs, files in os.walk(dest_path):
+            for name in files:
+                dest_size += os.path.getsize(os.path.join(root, name))
+
+        pb["value"] = int(float(dest_size)/float((src_size)) * 100)
+        status.config(text=str(dest_size)+str(src_size))
+    return
 
 def run_backup():
     wtf_src_path = wow_directory_input.get()+'/'+'WTF'
@@ -243,7 +259,16 @@ status_text.grid(column=0, row=7, sticky="E")
 status = Label(font=("Arial", "10"))
 status.grid(column=1, row=8, columnspan=4, sticky="W")
 
-run = Button(text="BACKUP", width=10, font=("Arial", 15, "bold"), command=lambda: threading.Thread(target=run_backup).start())
+run = Button(
+    text="BACKUP", 
+    width=10, 
+    font=("Arial", 15, "bold"), 
+    command=lambda: [
+        threading.Thread(target=run_backup).start(), 
+        threading.Thread(target=progress_checker(wow_directory_input.get(), backup_directory_input.get())).start()
+    ]
+)
+
 run.grid(column=1,row=10, columnspan=4, pady=10)
 
 load_previous_filepaths()
